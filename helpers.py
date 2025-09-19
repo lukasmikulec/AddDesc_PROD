@@ -382,9 +382,11 @@ def process_publish_descriptions():
     # If the process of publishing descriptions has not been stopped
     if "stop_adding_descriptions" not in st.session_state:
         # Display button for stopping the process of publishing descriptions
-        st.button(_("Stop adding descriptions", "stop_publishing_button"), on_click=stop_adding_descriptions, key="button-destructive_1")
+        #st.button(_("Stop adding descriptions", "stop_publishing_button"), on_click=stop_adding_descriptions, key="button-destructive_1")
         # Create log for pages which were added
         st.session_state["added_descriptions_log"] = []
+        # Create log for pages which failed to be added
+        st.session_state["failed_descriptions_log"] = []
 
     # The process of adding descriptions
     # Show the process in a status box
@@ -397,96 +399,112 @@ def process_publish_descriptions():
                 pass
             # If the user did not request the stop of the publishing process
             else:
-                # Get the Wikidata item for the item
-                wikidata_item = str(publishing_dataframe["Wikidata Object"].loc[publishing_dataframe.index[i]])
-                print(wikidata_item)
-                # Get the defined description for the Wikidata item
-                description = publishing_dataframe["Wikipedia article"].loc[publishing_dataframe.index[i]]
-                # Get the page name on Wikipedia of the Wikidata item
-                page_name = str(publishing_dataframe["Page name"].loc[publishing_dataframe.index[i]])
+                placeholder = st.empty()
+                with placeholder.container():
+                    st.button(_("Stop adding descriptions", "stop_publishing_button"),
+                              on_click=stop_adding_descriptions, key=f"button-destructive_{i}")
+                    # Get the Wikidata item for the item
+                    wikidata_item = str(publishing_dataframe["Wikidata Object"].loc[publishing_dataframe.index[i]])
+                    print(wikidata_item)
+                    # Get the defined description for the Wikidata item
+                    description = publishing_dataframe["Wikipedia article"].loc[publishing_dataframe.index[i]]
+                    # Get the page name on Wikipedia of the Wikidata item
+                    page_name = str(publishing_dataframe["Page name"].loc[publishing_dataframe.index[i]])
 
-                # Compute how much time is remaining
-                status_label = seconds_to_minutes_and_seconds((((len(publishing_dataframe))-i) * 10))
-                # Text informing of the currently published description
-                st.markdown(
-                    _("Adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item", description=description, page_name=page_name, wikidata_item=wikidata_item))
-                st.session_state["added_descriptions_log"].append(_("Added description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item_log", description=description, page_name=page_name, wikidata_item=wikidata_item))
-                # Update the status box
-                status.update(
-                    label=status_label)
-                # Get only the Q.... identifier of a Wikidata item
-                wikidata_item = wikidata_item.split("/")[-1]
-                # Get the Wikidata item from pywikibot
-                item = pywikibot.ItemPage(repo, wikidata_item)
-                # Define the new description in the right format
-                new_descr = {__("en", "lang"): description}
-                # Publish the description
-                try:
-                    #item.editDescriptions(new_descr, summary=__("en description sourced from en wiki", "summary"))
-                    print(__("en description sourced from en wiki", "summary"))
-                    site = pywikibot.Site("en", st.session_state["pywikibot_family"])
-                    page = pywikibot.Page(site, "Test page 2")
-                    text = page.text
-                    text += "\n\nThis is an automated test edit, part 5."
-                    page.text = text
-                    page.save(summary="Adding fifth test line with Pywikibot")
-                # If there occurs an error when adding the description with pywikibot
-                except:
-                    # Inform the user and tell them to add the description themselves
-                    with stylable_container(key=f"warning_desc_add_failed_{i}",
-                                            css_styles="""
-                                                            /* Outer container for st.warning() */
-                                                            div[data-testid="stAlertContainer"] {
-                                                                background-color: #fdf2d5 !important;
-                                                                border: 1px solid #b7985d !important;
-                                                                border-radius: 2px !important;
-                                                                padding: 16px !important;
-                                                                color: #202122 !important;
-                                                                font-family: "Segoe UI", "Helvetica Neue", sans-serif !important;
-                                                                box-shadow: none !important;
-                                                                margin: 1em 0 !important;
-                                                            }
-    
-                                                            /* Internal layout: icon + message text */
-                                                            div[data-testid="stAlertContainer"] > div {
-                                                                display: flex !important;
-                                                                align-items: center !important;
-                                                                gap: 12px !important;
-                                                                padding-left: 10px !important;  /* ← Move text to right */
-                                                            }
-    
-                                                            /* Hide default SVG icon */
-                                                            div[data-testid="stAlertContainer"] svg {
-                                                                display: none !important;
-                                                            }
-    
-                                                            /* Custom Codex success icon with colored circle behind */
-                                                            div[data-testid="stAlertContainer"]::before {
-                                                                content: "";
-                                                                width: 28px;
-                                                                height: 28px;
-                                                                display: inline-block;
-                                                                flex-shrink: 0;
-                                                                background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/240px-OOjs_UI_icon_alert-yellow.svg.png");
-                                                                background-repeat: no-repeat;
-                                                                background-position: center;
-                                                                background-size: 26px 26px;
-                                                            }
-                                    """
-                                            ):
-                        st.warning(_("Failed adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**. Add it manually, please.", "publishing_item_failed_warning", description=description, page_name=page_name, wikidata_item=wikidata_item), width="stretch")
+                    # Compute how much time is remaining
+                    status_label = seconds_to_minutes_and_seconds((((len(publishing_dataframe))-i) * 10))
+                    # Text informing of the currently published description
+                    st.markdown(
+                        _("Adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item", description=description, page_name=page_name, wikidata_item=wikidata_item))
+                    st.session_state["added_descriptions_log"].append(_("Added description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item_log", description=description, page_name=page_name, wikidata_item=wikidata_item))
+                    # Update the status box
+                    status.update(
+                        label=status_label)
+                    # Get only the Q.... identifier of a Wikidata item
+                    wikidata_item = wikidata_item.split("/")[-1]
+                    # Get the Wikidata item from pywikibot
+                    item = pywikibot.ItemPage(repo, wikidata_item)
+                    # Define the new description in the right format
+                    new_descr = {__("en", "lang"): description}
+                    # Publish the description
+                    try:
+                        #item.editDescriptions(new_descr, summary=__("en description sourced from en wiki", "summary"))
+                        print(__("en description sourced from en wiki", "summary"))
+                        site = pywikibot.Site("en", st.session_state["pywikibot_family"])
+                        page = pywikibot.Page(site, "Test page 2")
+                        text = page.text
+                        text += "\n\nThis is an automated test edit, part 5."
+                        page.text = text
+                        page.save(summary="LAST TEST LINE")
+                    # If there occurs an error when adding the description with pywikibot
+                    except:
+                        # Inform the user and tell them to add the description themselves
+                        with stylable_container(key=f"warning_desc_add_failed_{i}",
+                                                css_styles="""
+                                                                /* Outer container for st.warning() */
+                                                                div[data-testid="stAlertContainer"] {
+                                                                    background-color: #fdf2d5 !important;
+                                                                    border: 1px solid #b7985d !important;
+                                                                    border-radius: 2px !important;
+                                                                    padding: 16px !important;
+                                                                    color: #202122 !important;
+                                                                    font-family: "Segoe UI", "Helvetica Neue", sans-serif !important;
+                                                                    box-shadow: none !important;
+                                                                    margin: 1em 0 !important;
+                                                                }
+        
+                                                                /* Internal layout: icon + message text */
+                                                                div[data-testid="stAlertContainer"] > div {
+                                                                    display: flex !important;
+                                                                    align-items: center !important;
+                                                                    gap: 12px !important;
+                                                                    padding-left: 10px !important;  /* ← Move text to right */
+                                                                }
+        
+                                                                /* Hide default SVG icon */
+                                                                div[data-testid="stAlertContainer"] svg {
+                                                                    display: none !important;
+                                                                }
+        
+                                                                /* Custom Codex success icon with colored circle behind */
+                                                                div[data-testid="stAlertContainer"]::before {
+                                                                    content: "";
+                                                                    width: 28px;
+                                                                    height: 28px;
+                                                                    display: inline-block;
+                                                                    flex-shrink: 0;
+                                                                    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/OOjs_UI_icon_alert-yellow.svg/240px-OOjs_UI_icon_alert-yellow.svg.png");
+                                                                    background-repeat: no-repeat;
+                                                                    background-position: center;
+                                                                    background-size: 26px 26px;
+                                                                }
+                                        """
+                                                ):
+                            st.warning(_("Failed adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**. Add it manually, please.", "publishing_item_failed_warning", description=description, page_name=page_name, wikidata_item=wikidata_item), width="stretch")
+                            st.session_state["failed_descriptions_log"].append(
+                                _("Failed adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**. Add it manually, please.", "publishing_item_failed_warning", description=description, page_name=page_name, wikidata_item=wikidata_item))
+                placeholder.empty()
         # If the descriptions publishing process was stopped
         if "stop_adding_descriptions" in st.session_state:
             # Inform the user in the status box
             status.update(label=_("All descriptions before the interruption were published.", "descriptions_published_stopped"), expanded=True, state="error")
-            # Write all the pages which were publishing up to the point of stopping the publishing prodess
+            # Write all the pages which failed to be published up to the point of stopping the publishing process
+            for i in range(len(st.session_state["failed_descriptions_log"])):
+                st.markdown(st.session_state["failed_descriptions_log"][i])
+            # Write all the pages which were published up to the point of stopping the publishing process
             for i in range(len(st.session_state["added_descriptions_log"])):
                 st.markdown(st.session_state["added_descriptions_log"][i])
         # If the descriptions publishing process was completed
         else:
             # Inform the user
             status.update(label=_("All descriptions were published.", "all_descriptions_published"), expanded=True, state="complete")
-        st.button(_("To homepage", "to_homepage"), on_click=lambda: change_page_to(page="Choose_method"), key="button_68")
+            # Write all the pages which failed to be published up to the point of stopping the publishing process
+            for i in range(len(st.session_state["failed_descriptions_log"])):
+                st.markdown(st.session_state["failed_descriptions_log"][i])
+            # Write all the pages which were published up to the point of stopping the publishing prcdess
+            for i in range(len(st.session_state["added_descriptions_log"])):
+                st.markdown(st.session_state["added_descriptions_log"][i])
+    st.button(_("To homepage", "to_homepage"), on_click=lambda: change_page_to(page="Choose_method", delete="stop_adding_descriptions"), key="button_68")
 
 def review_descriptions():
     # List of words to match
