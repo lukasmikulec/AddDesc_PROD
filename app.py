@@ -389,7 +389,7 @@ if "app_start" not in st.session_state and "logged_out" not in st.session_state:
                 # Does not remove local storage as these are only removed once the user logs out
 
                 # Verify if the session data is valid
-                IDENTIFY_URL = "https://meta.wikimedia.beta.wmcloud.org/w/index.php?title=Special:OAuth/identify"
+                IDENTIFY_URL = "https://meta.wikimedia.org/w/index.php?title=Special:OAuth/identify"
 
                 # Sign the request with OAuth1
                 oauth = OAuth1(
@@ -434,7 +434,7 @@ if "app_start" not in st.session_state and "logged_out" not in st.session_state:
                         max_session_length = 86400  # 1 day in seconds
                         if (
                                 # Issuer (iss) matches the domain name of the wiki
-                                payload.get("iss") == "https://meta.wikimedia.beta.wmcloud.org" and
+                                payload.get("iss") == "https://meta.wikimedia.org" and
                                 # Audience (aud) matches your application key
                                 payload.get("aud") == st.secrets["CONSUMER_KEY"] and
                                 # Issued-at time (iat) is in the past and reasonably close to current time

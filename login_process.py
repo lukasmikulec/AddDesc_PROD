@@ -36,10 +36,10 @@ def authorization_setup(localStorage):
 
     # Set URL for initiating OAuth process and getting the request token and request token secret
     st.session_state["OAUTH_INITIATE_URL"] = \
-        "https://meta.wikimedia.beta.wmcloud.org/w/index.php?title=Special:OAuth/initiate"
+        "https://meta.wikimedia.org/w/index.php?title=Special:OAuth/initiate"
 
     # Set URL to which the user will return after authenticating themselves
-    st.session_state["CALLBACK_URL"] = "http://localhost:8501/"
+    st.session_state["CALLBACK_URL"] = "https://adddesc.streamlit.app/"
 
     # OAuth1 signing setup for getting the request token and request token secret
     oauth = OAuth1(
@@ -105,7 +105,7 @@ def authorization_setup(localStorage):
     try:
         # Construct the authorization URL which the user will be redirected to
         st.session_state["AUTHORIZE_URL"] = (
-            "https://meta.wikimedia.beta.wmcloud.org/wiki/Special:OAuth/authorize"
+            "https://meta.wikimedia.org/wiki/Special:OAuth/authorize"
             f"?oauth_consumer_key={st.secrets["CONSUMER_KEY"]}"
             f"&oauth_token={st.session_state["REQUEST_TOKEN"]}"
         )
@@ -116,7 +116,7 @@ def authorization_setup(localStorage):
 # Function which will get access token and use it to verify the user's identity
 def get_access_token_and_verify_user(localStorage):
     # URL for get request to exchange request token for access token
-    OAUTH_TOKEN_URL = "https://meta.wikimedia.beta.wmcloud.org/w/index.php?title=Special:OAuth/token"
+    OAUTH_TOKEN_URL = "https://meta.wikimedia.org/w/index.php?title=Special:OAuth/token"
 
     # OAuth1 with verifier from the URL query
     oauth = OAuth1(
@@ -154,7 +154,7 @@ def get_access_token_and_verify_user(localStorage):
         print("Failed to get access token:", response.status_code, response.text)
 
     # Endpoint
-    IDENTIFY_URL = "https://meta.wikimedia.beta.wmcloud.org/w/index.php?title=Special:OAuth/identify"
+    IDENTIFY_URL = "https://meta.wikimedia.org/w/index.php?title=Special:OAuth/identify"
 
     # Sign the request with OAuth1
     oauth = OAuth1(
@@ -200,7 +200,7 @@ def get_access_token_and_verify_user(localStorage):
             now_registration = datetime.now()
             if (
                     # Issuer (iss) matches the domain name of the wiki
-                    payload.get("iss") == "https://meta.wikimedia.beta.wmcloud.org" and
+                    payload.get("iss") == "https://meta.wikimedia.org" and
                     # Audience (aud) matches your application key
                     payload.get("aud") == st.secrets["CONSUMER_KEY"] and
                     # Issued-at time (iat) is in the past and reasonably close to current time
@@ -251,7 +251,7 @@ def get_access_token_and_verify_user(localStorage):
 
             else:
                 print("❌ JWT validation failed.")
-                print(payload.get("iss") == "https://meta.wikimedia.beta.wmcloud.org")
+                print(payload.get("iss") == "meta.wikimedia.org")
                 print(payload.get("aud") == st.secrets["CONSUMER_KEY"])
                 print(payload.get("iat", 0) <= now <= payload.get("exp", now + 1))
                 print(payload.get("iss"))
