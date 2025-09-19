@@ -215,7 +215,7 @@ def get_access_token_and_verify_user(localStorage):
                 # User the credentials from OAuth process to sign the user in in pywikibot and return the family object
                 # of the project
                 #st.session_state["pywikibot_family"] =
-                login_with_oauth_params_1(st.secrets["CONSUMER_KEY"], st.secrets["CONSUMER_SECRET"], st.session_state["ACCESS_TOKEN"], st.session_state["ACCESS_TOKEN_SECRET"], st.session_state["user_data_name"])
+                login_with_oauth_params(st.secrets["CONSUMER_KEY"], st.secrets["CONSUMER_SECRET"], st.session_state["ACCESS_TOKEN"], st.session_state["ACCESS_TOKEN_SECRET"], st.session_state["user_data_name"])
 
                 # Save the user session until the user logs out or the user session expires
                 # Load encryption key from st.secrets to Fernet
@@ -273,7 +273,7 @@ def get_access_token_and_verify_user(localStorage):
         print("Failed to identify user:", response.status_code, response.text)
 
 
-def login_with_oauth_params(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str, username: str) -> Family:
+def login_with_oauth_params_OLD(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str, username: str) -> Family:
     # Step 1: Define custom family
     class MyFamily(Family):
         name = "customwiki"
@@ -313,7 +313,7 @@ def login_with_oauth_params(consumer_key: str, consumer_secret: str, access_toke
 
     return family
 
-def login_with_oauth_params_1(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str, username: str) -> Family:
+def login_with_oauth_params(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str, username: str) -> Family:
     # Set config values in code
     pywikibot.config.family = "wikidata"
     pywikibot.config.mylang = "wikidata"

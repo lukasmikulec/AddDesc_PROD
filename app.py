@@ -450,11 +450,12 @@ if "app_start" not in st.session_state and "logged_out" not in st.session_state:
 
                             # User the credentials from OAuth process to sign the user in in pywikibot
                             # and return the family object of the project
-                            st.session_state["pywikibot_family"] = login_with_oauth_params(st.secrets["CONSUMER_KEY"],
-                                                                                           st.secrets["CONSUMER_SECRET"],
-                                                                                           st.session_state["ACCESS_TOKEN"],
-                                                                                           st.session_state["ACCESS_TOKEN_SECRET"],
-                                                                                           st.session_state["user_data_name"])
+                            #st.session_state["pywikibot_family"] =
+                            login_with_oauth_params(st.secrets["CONSUMER_KEY"],
+                                                      st.secrets["CONSUMER_SECRET"],
+                                                      st.session_state["ACCESS_TOKEN"],
+                                                      st.session_state["ACCESS_TOKEN_SECRET"],
+                                                      st.session_state["user_data_name"])
 
                             # Go to the home page of the app
                             st.session_state["page"] = "Choose_method"
