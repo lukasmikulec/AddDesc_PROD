@@ -45,7 +45,8 @@ def authorization_setup(localStorage):
     oauth = OAuth1(
         client_key=st.secrets["CONSUMER_KEY"],
         client_secret=st.secrets["CONSUMER_SECRET"],
-        callback_uri=st.session_state["CALLBACK_URL"]
+        callback_uri="oob"
+        #callback_uri=st.session_state["CALLBACK_URL"]
     )
 
     # Get all local storage for this app
@@ -57,7 +58,7 @@ def authorization_setup(localStorage):
 
     # (OAuth 1.0a, Step 1: https://www.mediawiki.org/wiki/OAuth/For_Developers#)
     # Make the request
-    response = requests.get(st.session_state["OAUTH_INITIATE_URL"], auth=oauth)
+    response = requests.get(st.session_state["OAUTH_INITIATE_URL"], auth=oauth, headers=st.session_state["headers"])
     print(response.text)
     # If the get request was successful
     if response.status_code == 200:
@@ -136,7 +137,7 @@ def get_access_token_and_verify_user(localStorage):
 
     # (OAuth 1.0a, Step 3: https://www.mediawiki.org/wiki/OAuth/For_Developers#)
     # Make the request
-    response = requests.get(OAUTH_TOKEN_URL, auth=oauth)
+    response = requests.get(OAUTH_TOKEN_URL, auth=oauth, headers=st.session_state["headers"])
 
     # If the get request was successful
     if response.status_code == 200:
@@ -166,7 +167,7 @@ def get_access_token_and_verify_user(localStorage):
 
     # (OAuth 1.0a, Identifying the user: https://www.mediawiki.org/wiki/OAuth/For_Developers#)
     # Send request
-    response = requests.get(IDENTIFY_URL, auth=oauth)
+    response = requests.get(IDENTIFY_URL, auth=oauth, headers=st.session_state["headers"])
 
     # If the API responded
     if response.status_code == 200:

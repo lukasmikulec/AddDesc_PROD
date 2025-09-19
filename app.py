@@ -86,7 +86,6 @@ app_header()
 
 maintenance_banner()
 
-
 # Function to load custom css for buttons
 def load_css(file_path):
     with open(file_path) as f:
@@ -195,6 +194,11 @@ def verify_category():
             st.session_state["category_verified"] = True
             # Save the category
             st.session_state["category_object"] = cat
+
+
+st.session_state["headers"] = {
+    "User-Agent": f"AddDesc (https://adddesc.streamlit.app/; {st.secrets["CONTACT_EMAIL"]})"
+}
 
 
 # If the user returned from OAuth authorization
@@ -401,7 +405,7 @@ if "app_start" not in st.session_state and "logged_out" not in st.session_state:
 
                 # (OAuth 1.0a, Identifying the user: https://www.mediawiki.org/wiki/OAuth/For_Developers#)
                 # Send request
-                response = requests.get(IDENTIFY_URL, auth=oauth)
+                response = requests.get(IDENTIFY_URL, auth=oauth, headers=st.session_state["headers"])
 
                 # If the API responded
                 if response.status_code == 200:
