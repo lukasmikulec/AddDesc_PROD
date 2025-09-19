@@ -46,8 +46,9 @@ def authorization_setup(localStorage):
         client_key=st.secrets["CONSUMER_KEY"],
         client_secret=st.secrets["CONSUMER_SECRET"],
         callback_uri="oob"
-        #callback_uri=st.session_state["CALLBACK_URL"]
     )
+
+    # callback_uri=st.session_state["CALLBACK_URL"]
 
     # Get all local storage for this app
     all_local_Storage_items = localStorage.getAll()
@@ -213,7 +214,8 @@ def get_access_token_and_verify_user(localStorage):
 
                 # User the credentials from OAuth process to sign the user in in pywikibot and return the family object
                 # of the project
-                st.session_state["pywikibot_family"] = login_with_oauth_params(st.secrets["CONSUMER_KEY"], st.secrets["CONSUMER_SECRET"], st.session_state["ACCESS_TOKEN"], st.session_state["ACCESS_TOKEN_SECRET"], st.session_state["user_data_name"])
+                #st.session_state["pywikibot_family"] =
+                login_with_oauth_params_1(st.secrets["CONSUMER_KEY"], st.secrets["CONSUMER_SECRET"], st.session_state["ACCESS_TOKEN"], st.session_state["ACCESS_TOKEN_SECRET"], st.session_state["user_data_name"])
 
                 # Save the user session until the user logs out or the user session expires
                 # Load encryption key from st.secrets to Fernet
@@ -310,6 +312,31 @@ def login_with_oauth_params(consumer_key: str, consumer_secret: str, access_toke
     print("✅ Logged in as:", site.user())
 
     return family
+
+def login_with_oauth_params_1(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str, username: str) -> Family:
+    # Set config values in code
+    pywikibot.config.family = "wikidata"
+    pywikibot.config.mylang = "wikidata"
+    pywikibot.config.authenticate = {
+        "www.wikidata.org": (
+            consumer_key,
+            consumer_secret,
+            access_token,
+            access_secret
+        )
+    }
+
+    # Define username for the project
+    pywikibot.config.usernames["wikidata"]["wikidata"] = username
+    site = pywikibot.Site()
+
+    # Triggers the OAuth login
+    site.login()
+
+    # Confirm login
+    print("✅ Logged in as:", site.user())
+
+    #return family
 
 
 def log_out():
