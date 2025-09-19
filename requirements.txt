@@ -1,0 +1,8 @@
+streamlit==1.46.1
+streamlit-extras==0.7.1
+streamlit_local_storage==0.0.25
+cryptography==45.0.4
+pywikibot==10.1.0
+wikitextparser==0.56.4
+requests==2.32.3
+requests_oauthlib==2.0.0
