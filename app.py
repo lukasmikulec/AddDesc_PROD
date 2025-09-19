@@ -672,7 +672,7 @@ with st.sidebar:
         """
         ):
             st.link_button(_("Privacy policy", "privacy_policy"),
-                           f"http://localhost:8501/?privacy_policy=true&lang={st.session_state["current_language"]}")
+                           f"https://adddesc.streamlit.app/?privacy_policy=true&lang={st.session_state["current_language"]}")
 
 if "log_out" in st.session_state:
     # Delete all local storage items
