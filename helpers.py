@@ -414,7 +414,8 @@ def process_publish_descriptions():
                 # Update the status box
                 status.update(
                     label=status_label)
-
+                # Get only the Q.... identifier of a Wikidata item
+                wikidata_item = wikidata_item.split("/")[-1]
                 # Get the Wikidata item from pywikibot
                 item = pywikibot.ItemPage(repo, wikidata_item)
                 # Define the new description in the right format
