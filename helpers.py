@@ -413,10 +413,6 @@ def process_publish_descriptions():
 
                     # Compute how much time is remaining
                     status_label = seconds_to_minutes_and_seconds((((len(publishing_dataframe))-i) * 10))
-                    # Text informing of the currently published description
-                    st.markdown(
-                        _("Adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item", description=description, page_name=page_name, wikidata_item=wikidata_item))
-                    st.session_state["added_descriptions_log"].append(_("Added description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)", "publishing_item_log", description=description, page_name=page_name, wikidata_item=wikidata_item))
                     # Update the status box
                     status.update(
                         label=status_label)
@@ -428,14 +424,23 @@ def process_publish_descriptions():
                     new_descr = {__("en", "lang"): description}
                     # Publish the description
                     try:
-                        #item.editDescriptions(new_descr, summary=__("en description sourced from en wiki", "summary"))
+                        item.editDescriptions(new_descr, summary=__("en description sourced from en wiki", "summary"))
                         print(__("en description sourced from en wiki", "summary"))
-                        site = pywikibot.Site("en", st.session_state["pywikibot_family"])
-                        page = pywikibot.Page(site, "Test page 2")
-                        text = page.text
-                        text += "\n\nThis is an automated test edit, part 5."
-                        page.text = text
-                        page.save(summary="LAST TEST LINE")
+                        #site = pywikibot.Site("en", st.session_state["pywikibot_family"])
+                        #page = pywikibot.Page(site, "Test page 2")
+                        #text = page.text
+                        #text += "\n\nThis is an automated test edit, part 5."
+                        #page.text = text
+                        #page.save(summary="LAST TEST LINE")
+                        # Text informing of the currently published description
+                        st.markdown(
+                            _("Adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)",
+                              "publishing_item", description=description, page_name=page_name,
+                              wikidata_item=wikidata_item))
+                        st.session_state["added_descriptions_log"].append(
+                            _("Added description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**)",
+                              "publishing_item_log", description=description, page_name=page_name,
+                              wikidata_item=wikidata_item))
                     # If there occurs an error when adding the description with pywikibot
                     except:
                         # Inform the user and tell them to add the description themselves
