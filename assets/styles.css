@@ -1,0 +1,198 @@
+/*Normal button START*/
+[class*="st-key-button"] button { /*Defines style of normal buttons*/
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin: 1em 0;
+  font-size: 1rem;
+  text-decoration: none;
+  background-color: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  border-radius: 0.2em;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+[class*="st-key-button"] button p{ /*Defines text style of normal buttons*/
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #202122;
+}
+
+[class*="st-key-button"] button:hover { /*Defines style of normal buttons when hovered over*/
+  background-color: #ffffff;
+  border-color: #a2a9b1;
+  border: 1px solid #a2a9b1;
+}
+[class*="st-key-button"] button:active { /*Defines style of normal buttons when clicked over*/
+  background-color: #eaecf0;
+  border-color: #72777d;
+  border: 1px solid #a2a9b1;
+}
+/*Normal button END*/
+
+/*Progressive button START*/
+[class*="st-key-button-progressive"] button { /*Defines style of normal buttons*/
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin: 1em 0;
+  font-size: 1rem;
+  text-decoration: none;
+  background-color: #3366cc;
+  border: 1px solid #3366cc;
+  border-radius: 0.2em;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+[class*="st-key-button-progressive"] button p{ /*Defines text style of normal buttons*/
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+[class*="st-key-button-progressive"] button:hover { /*Defines style of normal buttons when hovered over*/
+  background-color: #3056a9;
+  border-color: #3056a9;
+  border: 1px solid #3056a9;
+}
+[class*="st-key-button-progressive"] button:active { /*Defines style of normal buttons when clicked over*/
+  background-color: #233566;
+  border-color: #233566;
+  border: 1px solid #233566;
+}
+/*Progressive button END*/
+
+/*Progressive button centered START*/
+[class*="st-key-button-progressive-centered"] button { /*Defines style of normal buttons*/
+  padding: 0.4em 1em;
+  display: block;
+  margin: 0 auto;
+  font-size: 1rem;
+  text-decoration: none;
+  background-color: #3366cc;
+  border: 1px solid #3366cc;
+  border-radius: 0.2em;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+[class*="st-key-button-progressive-centered"] button p{ /*Defines text style of normal buttons*/
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+[class*="st-key-button-progressive-centered"] button:hover { /*Defines style of normal buttons when hovered over*/
+  background-color: #3056a9;
+  border-color: #3056a9;
+  border: 1px solid #3056a9;
+}
+[class*="st-key-button-progressive-centered"] button:active { /*Defines style of normal buttons when clicked over*/
+  background-color: #233566;
+  border-color: #233566;
+  border: 1px solid #233566;
+}
+/*Progressive button centered END*/
+
+/*Destructive button START*/
+[class*="st-key-button-destructive"] button { /*Defines style of destructive buttons*/
+  display: inline-block;
+  padding: 0.4em 1em;
+  margin: 1em 0;
+  font-size: 1rem;
+  text-decoration: none;
+  background-color: #bf3c2c;
+  border: 1px solid #bf3c2c;
+  border-radius: 0.2em;
+  transition: background-color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+[class*="st-key-button-destructive"] button p{ /*Defines text style of destructive buttons*/
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+[class*="st-key-button-destructive"] button:hover { /*Defines style of destructive buttons when hovered over*/
+  background-color: #9f3526;
+  border-color: #9f3526;
+  border: 1px solid #9f3526;
+}
+[class*="st-key-button-destructive"] button:active { /*Defines style of destructive buttons when clicked over*/
+  background-color: #612419;
+  border-color: #612419;
+  border: 1px solid #612419;
+}
+/*Destructive button END*/
+
+/*Disabled button START*/
+[class*="st-key-button-disabled"] button:disabled { /*Defines style of disabled buttons*/
+  background-color: #c8ccd1;
+  border-color: #c8ccd1;
+  border: 1px solid #c8ccd1;
+}
+[class*="st-key-button-disabled"] button:hover:disabled { /*Defines style of disabled buttons when hovered over*/
+  background-color: #c8ccd1;
+  border-color: #c8ccd1;
+  border: 1px solid #c8ccd1;
+}
+[class*="st-key-button-disabled"] button p{ /*Defines text style of disabled buttons*/
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #fcfcfc;
+}
+/*Disabled button END*/
+
+
+/*Progressive button START*/
+/*Progressive button END*/
+
+
+
+
+[class*="st-key-text-input"] input {
+  padding: 0.4em;
+  font-size: 1rem;
+  border: 1px solid #a2a9b1;
+  border-radius: 2px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+[class*="st-key-text-input"] label {
+  display: none;
+}
+
+[class*="st-key-text-input"] div {
+  top: 15px;
+}
+
+[class*="st-key-text-input"] input:focus {
+  outline: none;
+  border-color: #3366cc;
+  box-shadow: none !important;
+  border: 2px solid #3366cc;
+}
+
+
+
+
+.st-key-toggle input {
+
+    }
+
+.st-key-toggle [data-baseweb="checkbox"] {
+}
+
+.st-key-toggle label[data-baseweb="checkbox"][aria-checked="true"] > div {
+    background-color: #0078D4 !important;
+}
+
+}
+/* Target the UNCHECKED toggle's background */
+.st-key-toggle label[data-baseweb="checkbox"][aria-checked="false"] > div {
+    background-color: #ccc !important;
+}
+
+.st-key-toggle label[data-baseweb="checkbox"][aria-checked="true"] > div > div {
+    transform: translateX(16px);
+}
+

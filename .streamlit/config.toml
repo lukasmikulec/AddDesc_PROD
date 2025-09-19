@@ -1,0 +1,19 @@
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family = "Arial"
+url = "arial.ttf"
+style = "normal"
+
+[theme]
+headingFont = "Arial"
+font = "Arial"
+baseFontSize=16
+primaryColor="#3366cc"
+backgroundColor="#fff"
+baseRadius="none"
+secondaryBackgroundColor="#fff"
+
+[ui]
+hideTopBar = true
