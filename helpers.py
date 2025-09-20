@@ -442,7 +442,7 @@ def process_publish_descriptions():
                               "publishing_item_log", description=description, page_name=page_name,
                               wikidata_item=wikidata_item))
                     # If there occurs an error when adding the description with pywikibot
-                    except:
+                    except Exception as e:
                         # Inform the user and tell them to add the description themselves
                         with stylable_container(key=f"warning_desc_add_failed_{i}",
                                                 css_styles="""
@@ -488,6 +488,7 @@ def process_publish_descriptions():
                             st.warning(_("Failed adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**. Add it manually, please.", "publishing_item_failed_warning", description=description, page_name=page_name, wikidata_item=wikidata_item), width="stretch")
                             st.session_state["failed_descriptions_log"].append(
                                 _("Failed adding description **{description}** for page **{page_name}** (Wikidata item: **{wikidata_item}**. Add it manually, please.", "publishing_item_failed_warning", description=description, page_name=page_name, wikidata_item=wikidata_item))
+                            st.session_state["failed_descriptions_log"].append(str(e))
                 placeholder.empty()
         # If the descriptions publishing process was stopped
         if "stop_adding_descriptions" in st.session_state:
